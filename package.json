@@ -1,0 +1,39 @@
+{
+    "name": "sidedrop",
+    "private": true,
+    "version": "0.1.0",
+    "license": "MIT",
+    "type": "module",
+    "description": "Sidedrop — real-time peer-to-peer, browser-to-browser file transfer. No cloud, no storage, no account.",
+    "scripts": {
+        "switch_to_dev": "shx cp -f ./env/env.dev .env",
+        "switch_to_prod": "shx cp -f ./env/env.prod .env",
+        "serve": "vite",
+        "dev": "vite",
+        "build": "vue-tsc --noEmit && vite build",
+        "typecheck": "vue-tsc --noEmit",
+        "preview": "vite preview",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "re-install-npm": "npm cache clean --force && shx rm -rf node_modules dist package-lock.json && npm install"
+    },
+    "dependencies": {
+        "fflate": "^0.8.2",
+        "pinia": "^4.0.3",
+        "qrcode": "^1.5.4",
+        "vue": "^3.5.13",
+        "vue-i18n": "^9.14.2",
+        "vue-router": "^4.6.4"
+    },
+    "devDependencies": {
+        "@types/qrcode": "^1.5.5",
+        "@vitejs/plugin-vue": "^5.2.1",
+        "@vue/test-utils": "^2.4.6",
+        "happy-dom": "^15.11.7",
+        "shx": "^0.3.4",
+        "typescript": "^5.7.2",
+        "vite": "^6.0.5",
+        "vitest": "^3.0.0",
+        "vue-tsc": "^2.2.0"
+    }
+}
