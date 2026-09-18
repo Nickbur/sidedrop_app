@@ -11,7 +11,8 @@ Web-only SPA (Vue 3 + Vite). Part of the burakov ecosystem; backed only by an an
 
 ```
 npm install
-npm run serve   # http://localhost:8103
+npm run switch_to_dev   # env/env.dev -> .env (VITE_API_URL=http://localhost:3000)
+npm run serve           # http://localhost:8103
 ```
 
 Needs `burakov_api` running (signaling WebSocket + ICE credentials) at `VITE_API_URL`.
