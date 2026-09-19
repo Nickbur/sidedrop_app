@@ -20,7 +20,7 @@ function switchLang(): void {
     <div class="app">
         <header class="topbar">
             <a class="brand" href="/">
-                <span class="mark" aria-hidden="true">◈</span>
+                <img class="mark" src="/favicon.png" alt="" aria-hidden="true" width="22" height="22" />
                 <span class="brand-name">{{ t('brand') }}</span>
                 <span class="brand-sub muted">{{ t('by') }}</span>
             </a>
@@ -85,9 +85,10 @@ function switchLang(): void {
     color: var(--text);
 }
 .mark {
-    color: var(--accent);
-    font-size: 18px;
-    transform: translateY(1px);
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    align-self: center;
 }
 .brand-name {
     font-family: var(--font-display);
