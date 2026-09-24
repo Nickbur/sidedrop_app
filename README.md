@@ -4,8 +4,7 @@ Sidedrop — real-time, peer-to-peer, browser-to-browser file transfer. No cloud
 
 Web-only SPA (Vue 3 + Vite). Part of the burakov ecosystem; backed only by an anonymous signaling module in `burakov_api`.
 
-- Concept & spec: `burakov_docs/sidedrop/tz-sidedrop.md`
-- Ops context: `burakov_docs/sidedrop/project-context-sidedrop.md`
+- Docs: `burakov_docs/sidedrop/project-context-sidedrop.md` (current state + non-obvious notes + remaining-work)
 
 ## Dev
 
