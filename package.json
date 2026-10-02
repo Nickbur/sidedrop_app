@@ -17,7 +17,8 @@
         "preview": "vite preview",
         "test": "vitest run",
         "test:watch": "vitest",
-        "re-install-npm": "npm cache clean --force && shx rm -rf node_modules dist package-lock.json && npm install"
+        "re-install-npm": "npm cache clean --force && shx rm -rf node_modules dist package-lock.json && npm install",
+        "prepare": "husky || exit 0"
     },
     "dependencies": {
         "fflate": "^0.8.2",
@@ -32,11 +33,16 @@
         "@vitejs/plugin-vue": "^5.2.1",
         "@vue/test-utils": "^2.4.6",
         "happy-dom": "^15.11.7",
+        "husky": "9.1.7",
+        "lint-staged": "17.6.0",
         "prettier": "3.9.9",
         "shx": "^0.3.4",
         "typescript": "^5.7.2",
         "vite": "^6.0.5",
         "vitest": "^3.0.0",
         "vue-tsc": "^2.2.0"
+    },
+    "lint-staged": {
+        "*": "prettier --write --ignore-unknown"
     }
 }
