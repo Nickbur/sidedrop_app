@@ -86,7 +86,9 @@ function sendText(): void {
                 @keydown.meta.enter="sendText"
             ></textarea>
             <div class="text-actions">
-                <button class="btn btn--ghost btn--sm" type="button" @click="showText = false">{{ t('text.cancel') }}</button>
+                <button class="btn btn--ghost btn--sm" type="button" @click="showText = false">
+                    {{ t('text.cancel') }}
+                </button>
                 <button class="btn btn--sm" type="button" :disabled="!textValue.trim()" @click="sendText">
                     {{ t('text.send') }}
                 </button>

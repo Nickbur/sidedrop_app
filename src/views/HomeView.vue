@@ -74,12 +74,7 @@ const showMemoryWarn = computed(() => store.state.sinkMode === 'memory');
                 {{ statusText }}
             </span>
             <span v-if="store.state.status === 'connected'" class="badge badge--ok">🔒 {{ t('conn.secure') }}</span>
-            <button
-                v-if="store.state.status === 'error'"
-                class="btn btn--sm"
-                type="button"
-                @click="store.hostNew()"
-            >
+            <button v-if="store.state.status === 'error'" class="btn btn--sm" type="button" @click="store.hostNew()">
                 {{ t('pair.newRoom') }}
             </button>
         </div>

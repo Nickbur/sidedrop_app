@@ -68,7 +68,9 @@ function join(): void {
                     </div>
                 </div>
 
-                <div class="divider"><span>{{ t('pair.enterPrompt') }}</span></div>
+                <div class="divider">
+                    <span>{{ t('pair.enterPrompt') }}</span>
+                </div>
 
                 <form class="copy-row" @submit.prevent="join">
                     <input
@@ -78,7 +80,9 @@ function join(): void {
                         autocomplete="off"
                         autocapitalize="characters"
                     />
-                    <button class="btn btn--sm" type="submit" :disabled="!codeInput.trim()">{{ t('pair.join') }}</button>
+                    <button class="btn btn--sm" type="submit" :disabled="!codeInput.trim()">
+                        {{ t('pair.join') }}
+                    </button>
                 </form>
             </div>
         </div>

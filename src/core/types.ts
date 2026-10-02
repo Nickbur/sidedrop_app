@@ -1,15 +1,7 @@
 export type Direction = 'send' | 'recv';
 export type ItemKind = 'file' | 'text';
 
-export type TransferStatus =
-    | 'queued'
-    | 'active'
-    | 'paused'
-    | 'ready'
-    | 'done'
-    | 'completed'
-    | 'failed'
-    | 'canceled';
+export type TransferStatus = 'queued' | 'active' | 'paused' | 'ready' | 'done' | 'completed' | 'failed' | 'canceled';
 
 /** Metadata announced on the wire for one transferred item. */
 export interface ItemMeta {
@@ -33,14 +25,7 @@ export interface TransferItem extends ItemMeta {
     text?: string;
 }
 
-export type ConnectionStatus =
-    | 'idle'
-    | 'connecting'
-    | 'waiting'
-    | 'connected'
-    | 'reconnecting'
-    | 'closed'
-    | 'error';
+export type ConnectionStatus = 'idle' | 'connecting' | 'waiting' | 'connected' | 'reconnecting' | 'closed' | 'error';
 
 export interface IceServerConfig {
     urls: string | string[];

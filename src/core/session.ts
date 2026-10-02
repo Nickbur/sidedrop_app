@@ -271,7 +271,9 @@ export class Session {
     }
 
     async saveAllReady(): Promise<void> {
-        const ready = this.engine.getItems().filter((it) => it.dir === 'recv' && it.status === 'ready' && it.kind === 'file');
+        const ready = this.engine
+            .getItems()
+            .filter((it) => it.dir === 'recv' && it.status === 'ready' && it.kind === 'file');
         const files: ReceivedFile[] = [];
         for (const it of ready) {
             const f = this.sinkStore.get(it.id);

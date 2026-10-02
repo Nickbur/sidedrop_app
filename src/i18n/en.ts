@@ -90,8 +90,10 @@ export const en = {
     save: {
         pickerHint: 'Choose where to save.',
         downloadHint: 'Your browser will download it to its Downloads folder.',
-        mobileWarn: 'Receiving large files on a phone may be limited by the browser — the desktop side handles big files best.',
-        memoryWarn: 'This browser buffers incoming files in memory, so very large files may not fit. Chrome or Edge on desktop have no such limit.',
+        mobileWarn:
+            'Receiving large files on a phone may be limited by the browser — the desktop side handles big files best.',
+        memoryWarn:
+            'This browser buffers incoming files in memory, so very large files may not fit. Chrome or Edge on desktop have no such limit.',
         failed: 'Could not save the file.',
     },
 

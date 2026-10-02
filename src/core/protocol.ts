@@ -56,17 +56,7 @@ export type Control =
     | { t: 'resume'; items: Array<{ i: number; have: number }> }
     | { t: 'cancel-recv'; i: number };
 
-const CONTROL_TYPES = new Set([
-    'hello',
-    'batch',
-    'text',
-    'eof',
-    'cancel-send',
-    'ack',
-    'got',
-    'resume',
-    'cancel-recv',
-]);
+const CONTROL_TYPES = new Set(['hello', 'batch', 'text', 'eof', 'cancel-send', 'ack', 'got', 'resume', 'cancel-recv']);
 
 export function encodeControl(msg: Control): string {
     return JSON.stringify(msg);

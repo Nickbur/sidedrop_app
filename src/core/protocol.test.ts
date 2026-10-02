@@ -1,11 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import {
-    CHUNK_HEADER_BYTES,
-    decodeChunk,
-    encodeChunk,
-    encodeControl,
-    parseControl,
-} from './protocol';
+import { CHUNK_HEADER_BYTES, decodeChunk, encodeChunk, encodeControl, parseControl } from './protocol';
 
 describe('chunk frame codec', () => {
     it('round-trips index, offset and payload', () => {

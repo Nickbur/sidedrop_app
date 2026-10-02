@@ -2,9 +2,9 @@
    (Golos Text display + dusty indigo + warm neutrals). Dark is the default. */
 
 :root {
-    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    --font-mono: "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
-    --font-display: "Golos Text", var(--font-sans);
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: 'SF Mono', 'Cascadia Code', 'JetBrains Mono', Consolas, monospace;
+    --font-display: 'Golos Text', var(--font-sans);
 
     --container: 1080px;
     --radius-sm: 6px;
@@ -58,7 +58,7 @@
     color-scheme: dark;
 }
 
-:root[data-theme="light"] {
+:root[data-theme='light'] {
     --bg: #faf9f7;
     --bg-secondary: #f3f1ed;
     --bg-card: #ffffff;

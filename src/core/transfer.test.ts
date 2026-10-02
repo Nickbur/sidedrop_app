@@ -110,7 +110,12 @@ describe('TransferEngine', () => {
             { meta: metaOf('b.bin', b), source: bufSource(b) },
         ]);
 
-        await waitUntil(() => engA.getItems().filter((i) => i.dir === 'send').every((i) => i.status === 'done'));
+        await waitUntil(() =>
+            engA
+                .getItems()
+                .filter((i) => i.dir === 'send')
+                .every((i) => i.status === 'done'),
+        );
         expect(received.has('a.bin') && received.has('b.bin')).toBe(true);
         expect(equal(received.get('a.bin')!.data, a)).toBe(true);
         expect(equal(received.get('b.bin')!.data, b)).toBe(true);

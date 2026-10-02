@@ -479,7 +479,12 @@ export class TransferEngine {
     clearFinished(): void {
         const drop = new Set<string>();
         for (const it of this.order) {
-            if (it.status === 'done' || it.status === 'completed' || it.status === 'canceled' || it.status === 'failed') {
+            if (
+                it.status === 'done' ||
+                it.status === 'completed' ||
+                it.status === 'canceled' ||
+                it.status === 'failed'
+            ) {
                 drop.add(it.id);
             }
         }

@@ -80,12 +80,17 @@ async function copyText(item: TransferItem): Promise<void> {
                         <td class="name">
                             <span class="fname" :title="item.relPath || item.name">{{ item.name }}</span>
                             <span v-if="item.kind === 'text' && item.text" class="preview muted">{{ item.text }}</span>
-                            <span v-else-if="item.relPath && item.relPath !== item.name" class="preview muted">{{ item.relPath }}</span>
+                            <span v-else-if="item.relPath && item.relPath !== item.name" class="preview muted">{{
+                                item.relPath
+                            }}</span>
                         </td>
                         <td class="size mono">{{ formatBytes(item.size) }}</td>
                         <td class="prog">
                             <div class="bar">
-                                <div class="bar-fill" :style="{ width: percent(item.transferred, item.size) + '%' }"></div>
+                                <div
+                                    class="bar-fill"
+                                    :style="{ width: percent(item.transferred, item.size) + '%' }"
+                                ></div>
                             </div>
                             <span class="pct mono">{{ percent(item.transferred, item.size) }}%</span>
                         </td>
@@ -112,7 +117,9 @@ async function copyText(item: TransferItem): Promise<void> {
                                 {{ t('text.copy') }}
                             </button>
                             <button
-                                v-else-if="item.status === 'active' || item.status === 'queued' || item.status === 'paused'"
+                                v-else-if="
+                                    item.status === 'active' || item.status === 'queued' || item.status === 'paused'
+                                "
                                 class="btn btn--danger btn--sm"
                                 type="button"
                                 @click="store.cancel(item.id)"

@@ -1,0 +1,21 @@
+# Generated / vendored — never formatted (Prettier also skips everything in .gitignore)
+node_modules/
+dist/
+build/
+.astro/
+android/
+ios/
+src-tauri/gen/
+target/
+coverage/
+package-lock.json
+*.min.js
+*.min.css
+
+# Markdown is re-indented separately — Prettier would re-align every table
+*.md
+*.mdx
+
+# Verbatim third-party texts
+LICENSE*
+THIRD-PARTY-NOTICES*

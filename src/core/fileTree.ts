@@ -7,8 +7,7 @@ export interface Dropped {
 export async function fromDataTransfer(dt: DataTransfer): Promise<Dropped[]> {
     const out: Dropped[] = [];
     const items = dt.items;
-    const supportsEntries =
-        items && items.length > 0 && typeof items[0]?.webkitGetAsEntry === 'function';
+    const supportsEntries = items && items.length > 0 && typeof items[0]?.webkitGetAsEntry === 'function';
 
     if (supportsEntries) {
         const roots: FileSystemEntry[] = [];
