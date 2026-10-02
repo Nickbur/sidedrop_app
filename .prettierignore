@@ -16,6 +16,3 @@ package-lock.json
 *.md
 *.mdx
 
-# Verbatim third-party texts
-LICENSE*
-THIRD-PARTY-NOTICES*
