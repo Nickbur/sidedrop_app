@@ -1,1 +1,2 @@
-npx lint-staged
+sh .husky/guard.sh
+npx lint-staged --concurrent false
