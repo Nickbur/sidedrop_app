@@ -21,28 +21,31 @@
         "prepare": "husky || exit 0"
     },
     "dependencies": {
-        "fflate": "^0.8.2",
-        "pinia": "^4.0.3",
-        "qrcode": "^1.5.4",
-        "vue": "^3.5.13",
-        "vue-i18n": "^9.14.2",
-        "vue-router": "^4.6.4"
+        "fflate": "0.8.3",
+        "pinia": "4.0.3",
+        "qrcode": "1.5.4",
+        "vue": "3.5.43",
+        "vue-i18n": "11.4.13",
+        "vue-router": "5.3.1"
     },
     "devDependencies": {
-        "@types/qrcode": "^1.5.5",
-        "@vitejs/plugin-vue": "^5.2.1",
-        "@vue/test-utils": "^2.4.6",
-        "happy-dom": "^15.11.7",
+        "@types/qrcode": "1.5.6",
+        "@vitejs/plugin-vue": "6.0.9",
+        "@vue/test-utils": "2.5.1",
+        "happy-dom": "20.14.5",
         "husky": "9.1.7",
         "lint-staged": "17.6.0",
         "prettier": "3.9.9",
-        "shx": "^0.3.4",
-        "typescript": "^5.7.2",
-        "vite": "^6.0.5",
-        "vitest": "^3.0.0",
-        "vue-tsc": "^2.2.0"
+        "shx": "0.4.0",
+        "typescript": "6.0.3",
+        "vite": "8.3.2",
+        "vitest": "5.0.3",
+        "vue-tsc": "3.3.11"
     },
     "lint-staged": {
         "*": "prettier --write --ignore-unknown"
+    },
+    "engines": {
+        "node": ">=22.12.0"
     }
 }
