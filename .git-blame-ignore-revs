@@ -1,0 +1,5 @@
+# Formatting-only commits, skipped by `git blame`.
+# Locally: git config blame.ignoreRevsFile .git-blame-ignore-revs
+
+# style: enforce 4-space indentation with Prettier
+aecc2b6a2a34f06858a953532c5d61f14de757de
