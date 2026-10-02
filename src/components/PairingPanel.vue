@@ -43,7 +43,10 @@ function join(): void {
 
         <div class="pair-grid">
             <div class="qr-wrap">
-                <QrCanvas v-if="store.state.link" :value="store.state.link" />
+                <QrCanvas
+                    v-if="store.state.link"
+                    :value="store.state.link"
+                />
                 <span class="qr-label muted">{{ t('pair.scan') }}</span>
             </div>
 
@@ -51,8 +54,16 @@ function join(): void {
                 <div class="field-block">
                     <span class="label">{{ t('pair.link') }}</span>
                     <div class="copy-row">
-                        <input class="field mono" :value="store.state.link ?? ''" readonly />
-                        <button class="btn btn--ghost btn--sm" type="button" @click="copy('link')">
+                        <input
+                            class="field mono"
+                            :value="store.state.link ?? ''"
+                            readonly
+                        />
+                        <button
+                            class="btn btn--ghost btn--sm"
+                            type="button"
+                            @click="copy('link')"
+                        >
                             {{ copied === 'link' ? t('pair.copied') : t('pair.copy') }}
                         </button>
                     </div>
@@ -62,7 +73,11 @@ function join(): void {
                     <span class="label">{{ t('pair.codeLabel') }}</span>
                     <div class="copy-row">
                         <span class="code mono">{{ formattedCode }}</span>
-                        <button class="btn btn--ghost btn--sm" type="button" @click="copy('code')">
+                        <button
+                            class="btn btn--ghost btn--sm"
+                            type="button"
+                            @click="copy('code')"
+                        >
                             {{ copied === 'code' ? t('pair.copied') : t('pair.copy') }}
                         </button>
                     </div>
@@ -72,7 +87,10 @@ function join(): void {
                     <span>{{ t('pair.enterPrompt') }}</span>
                 </div>
 
-                <form class="copy-row" @submit.prevent="join">
+                <form
+                    class="copy-row"
+                    @submit.prevent="join"
+                >
                     <input
                         v-model="codeInput"
                         class="field"
@@ -80,7 +98,11 @@ function join(): void {
                         autocomplete="off"
                         autocapitalize="characters"
                     />
-                    <button class="btn btn--sm" type="submit" :disabled="!codeInput.trim()">
+                    <button
+                        class="btn btn--sm"
+                        type="submit"
+                        :disabled="!codeInput.trim()"
+                    >
                         {{ t('pair.join') }}
                     </button>
                 </form>

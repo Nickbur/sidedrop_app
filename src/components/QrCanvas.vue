@@ -23,7 +23,12 @@ watch(() => props.value, render);
 </script>
 
 <template>
-    <canvas ref="canvas" class="qr" :width="size ?? 208" :height="size ?? 208" />
+    <canvas
+        ref="canvas"
+        class="qr"
+        :width="size ?? 208"
+        :height="size ?? 208"
+    />
 </template>
 
 <style scoped>

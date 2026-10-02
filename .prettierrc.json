@@ -8,5 +8,18 @@
     "arrowParens": "always",
     "bracketSpacing": true,
     "endOfLine": "lf",
-    "overrides": [{ "files": "*.webmanifest", "options": { "parser": "json" } }]
+    "overrides": [
+        {
+            "files": "*.webmanifest",
+            "options": {
+                "parser": "json"
+            }
+        },
+        {
+            "files": "*.vue",
+            "options": {
+                "singleAttributePerLine": true
+            }
+        }
+    ]
 }

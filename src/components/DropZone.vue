@@ -63,20 +63,48 @@ function sendText(): void {
             @dragleave="onDragLeave"
             @click="store.canSend && pickFiles()"
         >
-            <div class="drop-icon" aria-hidden="true">⤓</div>
+            <div
+                class="drop-icon"
+                aria-hidden="true"
+            >
+                ⤓
+            </div>
             <p class="drop-title">{{ store.canSend ? t('drop.title') : t('drop.disabledTitle') }}</p>
             <p class="muted drop-hint">{{ store.canSend ? t('drop.hint') : t('drop.disabledHint') }}</p>
 
-            <div v-if="store.canSend" class="drop-actions" @click.stop>
-                <button class="btn btn--sm" type="button" @click="pickFiles">{{ t('drop.files') }}</button>
-                <button class="btn btn--ghost btn--sm" type="button" @click="pickFolder">{{ t('drop.folder') }}</button>
-                <button class="btn btn--ghost btn--sm" type="button" @click="showText = !showText">
+            <div
+                v-if="store.canSend"
+                class="drop-actions"
+                @click.stop
+            >
+                <button
+                    class="btn btn--sm"
+                    type="button"
+                    @click="pickFiles"
+                >
+                    {{ t('drop.files') }}
+                </button>
+                <button
+                    class="btn btn--ghost btn--sm"
+                    type="button"
+                    @click="pickFolder"
+                >
+                    {{ t('drop.folder') }}
+                </button>
+                <button
+                    class="btn btn--ghost btn--sm"
+                    type="button"
+                    @click="showText = !showText"
+                >
                     {{ t('drop.text') }}
                 </button>
             </div>
         </div>
 
-        <div v-if="showText && store.canSend" class="text-send card">
+        <div
+            v-if="showText && store.canSend"
+            class="text-send card"
+        >
             <textarea
                 v-model="textValue"
                 class="field"
@@ -86,17 +114,39 @@ function sendText(): void {
                 @keydown.meta.enter="sendText"
             ></textarea>
             <div class="text-actions">
-                <button class="btn btn--ghost btn--sm" type="button" @click="showText = false">
+                <button
+                    class="btn btn--ghost btn--sm"
+                    type="button"
+                    @click="showText = false"
+                >
                     {{ t('text.cancel') }}
                 </button>
-                <button class="btn btn--sm" type="button" :disabled="!textValue.trim()" @click="sendText">
+                <button
+                    class="btn btn--sm"
+                    type="button"
+                    :disabled="!textValue.trim()"
+                    @click="sendText"
+                >
                     {{ t('text.send') }}
                 </button>
             </div>
         </div>
 
-        <input ref="filesInput" type="file" multiple hidden @change="onFilesChosen" />
-        <input ref="folderInput" type="file" webkitdirectory multiple hidden @change="onFilesChosen" />
+        <input
+            ref="filesInput"
+            type="file"
+            multiple
+            hidden
+            @change="onFilesChosen"
+        />
+        <input
+            ref="folderInput"
+            type="file"
+            webkitdirectory
+            multiple
+            hidden
+            @change="onFilesChosen"
+        />
     </div>
 </template>
 

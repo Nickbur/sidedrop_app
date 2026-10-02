@@ -70,24 +70,44 @@ const showMemoryWarn = computed(() => store.state.sinkMode === 'memory');
 
         <div class="status-bar">
             <span class="status">
-                <span class="dot" :class="dotClass"></span>
+                <span
+                    class="dot"
+                    :class="dotClass"
+                ></span>
                 {{ statusText }}
             </span>
-            <span v-if="store.state.status === 'connected'" class="badge badge--ok">🔒 {{ t('conn.secure') }}</span>
-            <button v-if="store.state.status === 'error'" class="btn btn--sm" type="button" @click="store.hostNew()">
+            <span
+                v-if="store.state.status === 'connected'"
+                class="badge badge--ok"
+                >🔒 {{ t('conn.secure') }}</span
+            >
+            <button
+                v-if="store.state.status === 'error'"
+                class="btn btn--sm"
+                type="button"
+                @click="store.hostNew()"
+            >
                 {{ t('pair.newRoom') }}
             </button>
         </div>
 
         <div class="card main-card">
             <DropZone v-if="store.canSend" />
-            <div v-else-if="store.state.status === 'error'" class="error-box">
+            <div
+                v-else-if="store.state.status === 'error'"
+                class="error-box"
+            >
                 <p class="err">{{ errorMessage }}</p>
             </div>
             <PairingPanel v-else />
         </div>
 
-        <p v-if="showMemoryWarn" class="warn-note muted">⚠ {{ t('save.memoryWarn') }}</p>
+        <p
+            v-if="showMemoryWarn"
+            class="warn-note muted"
+        >
+            ⚠ {{ t('save.memoryWarn') }}
+        </p>
 
         <TransferTable />
         <LandingStrip />

@@ -33,7 +33,10 @@ async function copyText(item: TransferItem): Promise<void> {
 </script>
 
 <template>
-    <section v-if="store.items.length > 0" class="transfers">
+    <section
+        v-if="store.items.length > 0"
+        class="transfers"
+    >
         <div class="head">
             <h2>{{ t('table.title') }}</h2>
             <div class="head-actions">
@@ -71,18 +74,31 @@ async function copyText(item: TransferItem): Promise<void> {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="item in store.items" :key="item.id">
+                    <tr
+                        v-for="item in store.items"
+                        :key="item.id"
+                    >
                         <td class="dir">
                             <span :title="item.dir === 'send' ? t('table.sending') : t('table.receiving')">
                                 {{ item.dir === 'send' ? '↑' : '↓' }}
                             </span>
                         </td>
                         <td class="name">
-                            <span class="fname" :title="item.relPath || item.name">{{ item.name }}</span>
-                            <span v-if="item.kind === 'text' && item.text" class="preview muted">{{ item.text }}</span>
-                            <span v-else-if="item.relPath && item.relPath !== item.name" class="preview muted">{{
-                                item.relPath
-                            }}</span>
+                            <span
+                                class="fname"
+                                :title="item.relPath || item.name"
+                                >{{ item.name }}</span
+                            >
+                            <span
+                                v-if="item.kind === 'text' && item.text"
+                                class="preview muted"
+                                >{{ item.text }}</span
+                            >
+                            <span
+                                v-else-if="item.relPath && item.relPath !== item.name"
+                                class="preview muted"
+                                >{{ item.relPath }}</span
+                            >
                         </td>
                         <td class="size mono">{{ formatBytes(item.size) }}</td>
                         <td class="prog">
@@ -97,7 +113,11 @@ async function copyText(item: TransferItem): Promise<void> {
                         <td class="speed mono">{{ item.status === 'active' ? formatSpeed(item.speed) : '—' }}</td>
                         <td class="eta mono">{{ item.status === 'active' ? formatEta(item.eta) : '—' }}</td>
                         <td class="status">
-                            <span class="badge" :class="STATUS_BADGE[item.status]">{{ statusLabel(item) }}</span>
+                            <span
+                                class="badge"
+                                :class="STATUS_BADGE[item.status]"
+                                >{{ statusLabel(item) }}</span
+                            >
                         </td>
                         <td class="act">
                             <button

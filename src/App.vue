@@ -19,16 +19,36 @@ function switchLang(): void {
 <template>
     <div class="app">
         <header class="topbar">
-            <a class="brand" href="/">
-                <img class="mark" src="/favicon.png" alt="" aria-hidden="true" width="22" height="22" />
+            <a
+                class="brand"
+                href="/"
+            >
+                <img
+                    class="mark"
+                    src="/favicon.png"
+                    alt=""
+                    aria-hidden="true"
+                    width="22"
+                    height="22"
+                />
                 <span class="brand-name">{{ t('brand') }}</span>
                 <span class="brand-sub muted">{{ t('by') }}</span>
             </a>
             <div class="topbar-right">
-                <button class="icon-btn" type="button" :title="t('lang.switch')" @click="switchLang">
+                <button
+                    class="icon-btn"
+                    type="button"
+                    :title="t('lang.switch')"
+                    @click="switchLang"
+                >
                     {{ locale === 'ru' ? 'EN' : 'RU' }}
                 </button>
-                <button class="icon-btn" type="button" :title="t('theme.toggle')" @click="theme.toggle()">
+                <button
+                    class="icon-btn"
+                    type="button"
+                    :title="t('theme.toggle')"
+                    @click="theme.toggle()"
+                >
                     <span aria-hidden="true">{{ theme.theme === 'dark' ? '☾' : '☀' }}</span>
                 </button>
             </div>
@@ -42,11 +62,26 @@ function switchLang(): void {
             <div class="foot-inner">
                 <span class="badge badge--ok">🔒 {{ t('conn.secure') }}</span>
                 <span class="foot-links">
-                    <a :href="SITE" target="_blank" rel="noopener">{{ t('footer.site') }}</a>
+                    <a
+                        :href="SITE"
+                        target="_blank"
+                        rel="noopener"
+                        >{{ t('footer.site') }}</a
+                    >
                     <span class="dot">·</span>
-                    <a :href="GITHUB" target="_blank" rel="noopener">{{ t('footer.source') }}</a>
+                    <a
+                        :href="GITHUB"
+                        target="_blank"
+                        rel="noopener"
+                        >{{ t('footer.source') }}</a
+                    >
                     <span class="dot">·</span>
-                    <a :href="SPONSOR" target="_blank" rel="noopener">{{ t('footer.sponsor') }}</a>
+                    <a
+                        :href="SPONSOR"
+                        target="_blank"
+                        rel="noopener"
+                        >{{ t('footer.sponsor') }}</a
+                    >
                 </span>
                 <span class="muted foot-tag">{{ t('footer.tagline') }}</span>
             </div>

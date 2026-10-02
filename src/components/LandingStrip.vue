@@ -12,8 +12,16 @@ const tiles = [
 
 <template>
     <section class="landing">
-        <div v-for="tile in tiles" :key="tile.key" class="tile">
-            <span class="tile-icon" aria-hidden="true">{{ tile.icon }}</span>
+        <div
+            v-for="tile in tiles"
+            :key="tile.key"
+            class="tile"
+        >
+            <span
+                class="tile-icon"
+                aria-hidden="true"
+                >{{ tile.icon }}</span
+            >
             <h3>{{ t(`landing.${tile.key}.title`) }}</h3>
             <p class="muted">{{ t(`landing.${tile.key}.body`) }}</p>
         </div>
