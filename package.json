@@ -9,18 +9,10 @@
         "switch_to_dev": "shx cp -f ./env/env.dev .env",
         "switch_to_prod": "shx cp -f ./env/env.prod .env",
         "serve": "vite",
-        "dev": "vite",
-        "build": "vue-tsc --noEmit && vite build",
-        "typecheck": "vue-tsc --noEmit",
-        "format": "prettier --write .",
-        "format:check": "prettier --check .",
-        "lint": "eslint .",
-        "lint:fix": "eslint . --fix",
-        "preview": "vite preview",
-        "test": "vitest run",
-        "test:watch": "vitest",
+        "build": "prettier --check . && eslint . && vue-tsc --noEmit && vitest run && vite build",
+        "prepare": "husky || exit 0",
         "re-install-npm": "npm cache clean --force && shx rm -rf node_modules dist package-lock.json && npm install",
-        "prepare": "husky || exit 0"
+        "license-check": "npx license-checker --production --json > licenses.json"
     },
     "dependencies": {
         "fflate": "0.8.3",
@@ -56,6 +48,6 @@
         "*": "prettier --write --ignore-unknown"
     },
     "engines": {
-        "node": ">=22.12.0"
+        "node": ">=24.16.0"
     }
 }
