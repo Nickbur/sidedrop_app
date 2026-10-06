@@ -14,6 +14,3 @@ mkcert.exe
 .vscode/*
 !.vscode/settings.json
 !.vscode/extensions.json
-
-# License report
-licenses.json

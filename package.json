@@ -9,10 +9,10 @@
         "switch_to_dev": "shx cp -f ./env/env.dev .env",
         "switch_to_prod": "shx cp -f ./env/env.prod .env",
         "serve": "vite",
+        "fix": "prettier --write --log-level warn . && eslint . --fix",
         "build": "prettier --check . && eslint . && vue-tsc --noEmit && vitest run && vite build",
-        "prepare": "husky || exit 0",
         "re-install-npm": "npm cache clean --force && shx rm -rf node_modules dist package-lock.json && npm install",
-        "license-check": "npx license-checker --production --json > licenses.json"
+        "prepare": "husky || exit 0"
     },
     "dependencies": {
         "fflate": "0.8.3",
