@@ -1,2 +1,8 @@
 sh .husky/guard.sh
-npx lint-staged --concurrent false
+# Windows: cmd.exe caps a command line at 8191 chars, and lint-staged's default split
+# ignores the quoting node_modules/.bin/*.cmd adds, so big commits fail. Split earlier.
+if [ "$OS" = Windows_NT ]; then
+    npx lint-staged --concurrent false --max-arg-length 4000
+else
+    npx lint-staged --concurrent false
+fi
