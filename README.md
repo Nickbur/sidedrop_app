@@ -14,3 +14,5 @@ artificial limit on file size.
 
 Sidedrop is free and open source, with no ads and no sign-up. This repository holds the Sidedrop
 app that runs in your browser.
+
+Guides and help: [docs.burakov.net/sidedrop](https://docs.burakov.net/sidedrop).

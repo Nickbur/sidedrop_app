@@ -11,7 +11,7 @@
         "serve": "vite",
         "fix": "prettier --write --log-level warn . && eslint . --fix",
         "build": "prettier --check . && eslint . && vue-tsc --noEmit && vitest run && vite build",
-        "re-install-npm": "npm cache clean --force && shx rm -rf node_modules dist package-lock.json && npm install",
+        "re-install-deps": "npm cache clean --force && shx rm -rf node_modules dist package-lock.json && npm install",
         "prepare": "husky || exit 0"
     },
     "dependencies": {
@@ -49,5 +49,8 @@
     },
     "engines": {
         "node": ">=24.16.0"
+    },
+    "allowScripts": {
+        "fsevents": false
     }
 }

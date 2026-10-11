@@ -119,6 +119,9 @@ export const ru: Messages = {
         tagline: 'Проект burakov.',
         site: 'burakov.net',
         source: 'Исходники',
+        docs: 'Документация',
+        privacy: 'Приватность',
+        terms: 'Условия',
         sponsor: 'Поддержать',
     },
 

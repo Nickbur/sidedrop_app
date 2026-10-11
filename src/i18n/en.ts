@@ -116,6 +116,9 @@ export const en = {
         tagline: 'A burakov project.',
         site: 'burakov.net',
         source: 'Source',
+        docs: 'Docs',
+        privacy: 'Privacy',
+        terms: 'Terms',
         sponsor: 'Sponsor',
     },
 

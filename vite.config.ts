@@ -14,6 +14,8 @@ export default defineConfig({
     },
     test: {
         environment: 'node',
+        // Pin the zone so local-time date math gives the same results on every host.
+        env: { TZ: 'UTC' },
         include: ['src/**/*.test.ts'],
     },
 });

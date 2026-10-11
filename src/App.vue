@@ -10,6 +10,10 @@ const theme = useThemeStore();
 const GITHUB = 'https://github.com/Nickbur/sidedrop_app';
 const SPONSOR = 'https://github.com/sponsors/Nickbur';
 const SITE = 'https://burakov.net';
+// The user guide lives on docs.burakov.net; the legal pages on Sidedrop's burakov.net project page.
+const DOCS = 'https://docs.burakov.net/sidedrop';
+const PRIVACY = 'https://burakov.net/projects/sidedrop/privacy';
+const TERMS = 'https://burakov.net/projects/sidedrop/terms';
 
 function switchLang(): void {
     setLocale(locale.value === 'ru' ? 'en' : ('ru' as Locale));
@@ -74,6 +78,27 @@ function switchLang(): void {
                         target="_blank"
                         rel="noopener"
                         >{{ t('footer.source') }}</a
+                    >
+                    <span class="dot">·</span>
+                    <a
+                        :href="DOCS"
+                        target="_blank"
+                        rel="noopener"
+                        >{{ t('footer.docs') }}</a
+                    >
+                    <span class="dot">·</span>
+                    <a
+                        :href="PRIVACY"
+                        target="_blank"
+                        rel="noopener"
+                        >{{ t('footer.privacy') }}</a
+                    >
+                    <span class="dot">·</span>
+                    <a
+                        :href="TERMS"
+                        target="_blank"
+                        rel="noopener"
+                        >{{ t('footer.terms') }}</a
                     >
                     <span class="dot">·</span>
                     <a
