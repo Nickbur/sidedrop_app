@@ -10,6 +10,11 @@ describe('formatBytes', () => {
         expect(formatBytes(1024 * 1024)).toBe('1.0 MB');
         expect(formatBytes(3.5 * 1024 * 1024 * 1024)).toBe('3.5 GB');
     });
+    it('stops at petabytes and honours the requested precision', () => {
+        expect(formatBytes(2 * 1024 ** 5)).toBe('2.0 PB');
+        expect(formatBytes(3 * 1024 ** 6)).toBe('3072.0 PB');
+        expect(formatBytes(1536, 2)).toBe('1.50 KB');
+    });
     it('guards bad input', () => {
         expect(formatBytes(-1)).toBe('—');
         expect(formatBytes(NaN)).toBe('—');
@@ -26,6 +31,8 @@ describe('formatSpeed / formatEta', () => {
         expect(formatEta(90)).toBe('1m 30s');
         expect(formatEta(3700)).toBe('1h 1m');
         expect(formatEta(Infinity)).toBe('—');
+        expect(formatEta(-1)).toBe('—');
+        expect(formatEta(59.6)).toBe('1m 0s');
     });
 });
 
@@ -36,5 +43,7 @@ describe('percent', () => {
         expect(percent(100, 100)).toBe(100);
         expect(percent(999, 100)).toBe(100);
         expect(percent(5, 0)).toBe(100);
+        expect(percent(0, 0)).toBe(0);
+        expect(percent(999, 1000)).toBe(99);
     });
 });

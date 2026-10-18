@@ -88,7 +88,10 @@ export class SignalingClient {
                 return;
             }
             this.emitter.emit('status', 'reconnecting');
-            setTimeout(() => this.open(), this.backoff);
+            // close() during the back-off wait must not bring the socket back.
+            setTimeout(() => {
+                if (!this.manualClose) this.open();
+            }, this.backoff);
             this.backoff = Math.min(this.backoff * 2, 8000);
         };
         ws.onerror = () => {

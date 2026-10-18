@@ -157,7 +157,8 @@ export class TransferEngine {
                 sent: 0,
                 acked: 0,
                 eofSent: false,
-                done: meta.size === 0,
+                // An empty file has no bytes to pump but still waits for the receiver's 'got'.
+                done: false,
                 canceled: false,
             };
             if (meta.size === 0) item.status = 'active';
@@ -230,6 +231,8 @@ export class TransferEngine {
                 const end = Math.min(s.meta.size, start + this.chunkSize());
                 const data = await s.source.slice(start, end);
                 if (gen !== this.gen || this.channel !== channel) break;
+                // Canceled (by either side) while the chunk was being read: send nothing more of it.
+                if (s.canceled) continue;
                 channel.send(encodeChunk(s.meta.i, start, data));
                 s.sent = end;
                 s.item.status = 'active';

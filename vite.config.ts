@@ -13,9 +13,40 @@ export default defineConfig({
         strictPort: true,
     },
     test: {
-        environment: 'node',
-        // Pin the zone so local-time date math gives the same results on every host.
-        env: { TZ: 'UTC' },
+        environment: 'happy-dom',
+        // Pin the zone so local-time date math gives the same results on every host, and the
+        // app's settings so a run never depends on which `.env` is switched in.
+        env: {
+            TZ: 'UTC',
+            VITE_API_URL: 'http://api.test',
+            VITE_CLIENT_ID: 'sidedrop',
+        },
         include: ['src/**/*.test.ts'],
+        setupFiles: ['src/test/setup.ts'],
+        // Every mock starts each test empty: a test states the answers it relies on.
+        mockReset: true,
+        unstubEnvs: true,
+        unstubGlobals: true,
+        coverage: {
+            enabled: true,
+            provider: 'v8',
+            include: ['src/**/*.{ts,vue}'],
+            exclude: ['src/**/*.test.ts', 'src/test/**', 'src/vite-env.d.ts'],
+            reporter: ['text-summary'],
+            // `build` fails below these. Logic (signaling, peer link, transfer protocol, file storage,
+            // i18n, stores, routing) is held higher than the screens that render it.
+            thresholds: {
+                lines: 80,
+                statements: 80,
+                functions: 80,
+                branches: 80,
+                'src/{api.ts,{core,i18n,router,stores}/**}': {
+                    lines: 90,
+                    statements: 90,
+                    functions: 90,
+                    branches: 90,
+                },
+            },
+        },
     },
 });

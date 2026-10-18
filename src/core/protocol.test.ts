@@ -42,5 +42,8 @@ describe('control message codec', () => {
         expect(parseControl('not json')).toBeNull();
         expect(parseControl(JSON.stringify({ t: 'evil' }))).toBeNull();
         expect(parseControl(JSON.stringify({ nope: 1 }))).toBeNull();
+        expect(parseControl('null')).toBeNull();
+        expect(parseControl('42')).toBeNull();
+        expect(parseControl(JSON.stringify({ t: 7 }))).toBeNull();
     });
 });
