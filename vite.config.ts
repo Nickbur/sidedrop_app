@@ -36,6 +36,8 @@ export default defineConfig({
             // `build` fails below these. Logic (signaling, peer link, transfer protocol, file storage,
             // i18n, stores, routing) is held higher than the screens that render it.
             thresholds: {
+                // Each file on its own as well: a new module without tests fails `build` instead of hiding in the total.
+                perFile: { lines: 80, statements: 80, functions: 80, branches: 80 },
                 lines: 80,
                 statements: 80,
                 functions: 80,
