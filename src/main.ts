@@ -5,6 +5,10 @@ import App from './App.vue';
 import router from './router';
 import { i18n } from './i18n';
 import { useThemeStore } from './stores/theme';
+import { installStaleBuildRecovery } from './core/staleBuildRecovery';
+
+// Stale cached index.html references missing chunks after a deploy: reload for fresh assets.
+installStaleBuildRecovery();
 
 const app = createApp(App);
 const pinia = createPinia();
