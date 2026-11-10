@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { Peer, type PeerCallbacks, type PeerSignal } from './peer';
+import { Peer, usableIceServers, type PeerCallbacks, type PeerSignal } from './peer';
 import type { Channel } from './transfer';
 import { FakeDataChannel, FakeRTCPeerConnection, installWebRtc } from '../test/fakes';
 
@@ -29,6 +29,32 @@ function callbacks(): PeerCallbacks & { signals: PeerSignal[]; channels: Channel
 
 beforeEach(() => {
     installWebRtc();
+});
+
+describe('usableIceServers', () => {
+    it('keeps the STUN / TURN servers a browser accepts, as they were given', () => {
+        expect(usableIceServers(ICE)).toEqual(ICE);
+        expect(usableIceServers([{ urls: 'STUNS:secure.example' }, { urls: 'turns:t.example:443' }])).toHaveLength(2);
+    });
+
+    it('drops a malformed server — an unfilled placeholder would make the browser refuse the whole set', () => {
+        expect(
+            usableIceServers([
+                { urls: 'REPLACE_ME_turn_urls', username: 'u', credential: 'p' },
+                { urls: 'stun:stun.example:3478' },
+            ]),
+        ).toEqual([{ urls: 'stun:stun.example:3478' }]);
+        expect(usableIceServers([{ urls: ['turn:ok.example', 'https://nope.example', 7 as never] }])).toEqual([
+            { urls: ['turn:ok.example'] },
+        ]);
+        expect(usableIceServers([{ urls: ['', 'REPLACE_ME'] }])).toEqual([]);
+        expect(usableIceServers(undefined)).toEqual([]);
+    });
+
+    it('hands the browser only the usable servers', () => {
+        new Peer('host', 1, [{ urls: 'REPLACE_ME_turn_urls' }, ...ICE], callbacks());
+        expect(FakeRTCPeerConnection.last().config).toEqual({ iceServers: ICE });
+    });
 });
 
 describe('Peer — host', () => {

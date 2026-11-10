@@ -3,6 +3,27 @@ import type { IceServerConfig } from './types';
 
 export type PeerRole = 'host' | 'guest';
 
+const ICE_URL = /^(stuns?|turns?):/i;
+
+/**
+ * The ICE servers a browser accepts: only `stun:` / `stuns:` / `turn:` / `turns:` URLs, and only entries
+ * left with one. A malformed URL (an unfilled server placeholder, say) makes `new RTCPeerConnection` throw,
+ * and then no transfer could start at all — without it the link still forms over the servers that are fine.
+ */
+export function usableIceServers(servers: IceServerConfig[] | undefined): IceServerConfig[] {
+    const valid = (url: unknown): url is string => typeof url === 'string' && ICE_URL.test(url.trim());
+    const usable: IceServerConfig[] = [];
+    for (const server of servers ?? []) {
+        if (!Array.isArray(server.urls)) {
+            if (valid(server.urls)) usable.push(server);
+            continue;
+        }
+        const urls = server.urls.filter(valid);
+        if (urls.length) usable.push({ ...server, urls });
+    }
+    return usable;
+}
+
 export type PeerSignal =
     | { kind: 'offer'; epoch: number; sdp: RTCSessionDescriptionInit }
     | { kind: 'answer'; epoch: number; sdp: RTCSessionDescriptionInit }
@@ -61,7 +82,7 @@ export class Peer {
         iceServers: IceServerConfig[],
         private readonly cb: PeerCallbacks,
     ) {
-        this.pc = new RTCPeerConnection({ iceServers: iceServers as RTCIceServer[] });
+        this.pc = new RTCPeerConnection({ iceServers: usableIceServers(iceServers) as RTCIceServer[] });
         this.pc.onicecandidate = (e) => {
             this.cb.onSignal({
                 kind: 'ice',

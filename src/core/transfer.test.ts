@@ -432,6 +432,23 @@ describe('TransferEngine — receiving', () => {
         expect(ch.controls().at(-1)).toEqual({ t: 'got', i: 0 });
     });
 
+    it('never takes a path the peer names at its word — no climbing out of the folder (zip-slip)', async () => {
+        const { factory, sinks } = memorySinks();
+        const engine = new TransferEngine(factory);
+        const ch = new ScriptedChannel();
+        engine.attachChannel(ch);
+
+        ch.control({
+            t: 'batch',
+            items: [{ ...fileMeta('../../x.sh', 10), i: 0, relPath: '../../home/.ssh\\..\\authorized_keys' }],
+        });
+        await settle();
+
+        const item = engine.getItems().find((it) => it.dir === 'recv');
+        expect(item).toMatchObject({ name: '.._.._x.sh.bin', relPath: 'home/.ssh/authorized_keys' });
+        expect([...sinks.keys()]).toHaveLength(1);
+    });
+
     it('marks a file failed when no sink can be created for it', async () => {
         let call = 0;
         const engine = new TransferEngine(async () => {

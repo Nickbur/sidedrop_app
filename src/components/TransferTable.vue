@@ -128,14 +128,23 @@ async function copyText(item: TransferItem): Promise<void> {
                             >
                                 {{ t('table.save') }}
                             </button>
-                            <button
-                                v-else-if="item.kind === 'text' && item.dir === 'recv'"
-                                class="btn btn--ghost btn--sm"
-                                type="button"
-                                @click="copyText(item)"
-                            >
-                                {{ t('text.copy') }}
-                            </button>
+                            <template v-else-if="item.kind === 'text' && item.dir === 'recv'">
+                                <button
+                                    class="btn btn--ghost btn--sm"
+                                    type="button"
+                                    @click="copyText(item)"
+                                >
+                                    {{ t('text.copy') }}
+                                </button>
+                                <!-- Received text saves as its .txt too, not only copies. -->
+                                <button
+                                    class="btn btn--sm"
+                                    type="button"
+                                    @click="store.save(item.id)"
+                                >
+                                    {{ t('table.save') }}
+                                </button>
+                            </template>
                             <button
                                 v-else-if="
                                     item.status === 'active' || item.status === 'queued' || item.status === 'paused'

@@ -127,6 +127,15 @@ describe('TransferTable — row actions', () => {
         expect(blocked).toHaveBeenCalledTimes(1);
     });
 
+    it('saves received text as a file too, not only copies it', async () => {
+        const { wrapper, session } = await table([
+            item({ id: 't-1', kind: 'text', text: 'hello', status: 'completed' }),
+        ]);
+        await button(wrapper, t('table.save')).trigger('click');
+        expect(session.save).toHaveBeenCalledWith('t-1');
+        expect(button(wrapper, t('text.copy')).exists()).toBe(true);
+    });
+
     it('copies nothing for a text without content', async () => {
         const writeText = stubClipboard();
         const { wrapper } = await table([item({ kind: 'text', text: undefined, status: 'completed' })]);

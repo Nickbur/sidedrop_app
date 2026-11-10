@@ -386,6 +386,75 @@ describe('Session — losing and regaining the link', () => {
 
         expect(FakeRTCPeerConnection.instances).toHaveLength(1);
     });
+
+    it('keeps a working link when the re-join after a socket blip is answered "peer present"', async () => {
+        vi.useFakeTimers();
+        const h = await connectedHost();
+
+        h.ws.drop();
+        await vi.advanceTimersByTimeAsync(500);
+        const again = FakeWebSocket.last();
+        again.open();
+        // The server answers the automatic re-join like any join: the guest is still there.
+        again.receive({ t: 'joined', ...ROOM, role: 'host', peerPresent: true });
+        await flush();
+
+        expect(FakeRTCPeerConnection.instances).toHaveLength(1);
+        expect(h.last()).toMatchObject({ status: 'connected' });
+    });
+
+    it('as a guest, asks for no rebuild when the re-join finds the host while the link still works', async () => {
+        vi.useFakeTimers();
+        const h = await connectedGuest();
+
+        h.ws.drop();
+        await vi.advanceTimersByTimeAsync(500);
+        const again = FakeWebSocket.last();
+        again.open();
+        again.receive({ t: 'joined', ...ROOM, role: 'guest', peerPresent: true });
+        await flush();
+
+        expect(again.messages()).toEqual([{ t: 'join', room: 'r-1', token: 'tk' }]);
+        expect(h.last()).toMatchObject({ status: 'connected' });
+    });
+});
+
+describe('Session — a peer the browser refuses to set up', () => {
+    it('shows the error state instead of "Connecting…" forever (host)', async () => {
+        const h = begin({ mode: 'create' });
+        h.ws.receive({ t: 'created', ...ROOM });
+        vi.stubGlobal(
+            'RTCPeerConnection',
+            class {
+                constructor() {
+                    throw new SyntaxError('Invalid ICE server URL');
+                }
+            },
+        );
+
+        h.ws.receive({ t: 'peer-joined' });
+        await flush();
+
+        expect(h.last()).toMatchObject({ status: 'error', errorCode: 'peer-failed' });
+    });
+
+    it('shows the error state when it cannot answer an offer (guest)', async () => {
+        const h = begin({ mode: 'join', room: 'r-1' });
+        h.ws.receive({ t: 'joined', ...ROOM, role: 'guest', peerPresent: true });
+        vi.stubGlobal(
+            'RTCPeerConnection',
+            class {
+                constructor() {
+                    throw new SyntaxError('Invalid ICE server URL');
+                }
+            },
+        );
+
+        h.ws.receive({ t: 'signal', data: { kind: 'offer', epoch: 1, sdp: { type: 'offer', sdp: 'o' } } });
+        await flush();
+
+        expect(h.last()).toMatchObject({ status: 'error', errorCode: 'peer-failed' });
+    });
 });
 
 describe('Session — server errors', () => {
@@ -482,6 +551,27 @@ describe('Session — transfers', () => {
         expect(h.session.getItems()[0]?.status).toBe('done');
     });
 
+    it('saves a received empty file as an empty file of its type', async () => {
+        const h = await connectedGuest();
+        h.dc.receive(
+            encodeControl({
+                t: 'batch',
+                items: [{ i: 0, id: 'e', name: 'empty.log', size: 0, mime: 'text/plain', kind: 'file' }],
+            }),
+        );
+        await flush();
+        expect(h.session.getItems()[0]?.status).toBe('ready');
+
+        await h.session.save('e');
+
+        const file = vi.mocked(saveReceived).mock.calls[0]?.[0] as ReceivedFile;
+        expect(file).toMatchObject({ id: 'e', name: 'empty.log', relPath: 'empty.log', size: 0 });
+        const blob = await file.getBlob();
+        expect([blob.size, blob.type]).toEqual([0, 'text/plain']);
+        await expect(file.cleanup()).resolves.toBeUndefined();
+        expect(h.session.getItems()[0]?.status).toBe('done');
+    });
+
     it('does nothing when asked to save something it does not hold', async () => {
         const h = await connectedGuest();
         await h.session.save('nope');
@@ -510,7 +600,8 @@ describe('Session — transfers', () => {
 
         await h.session.saveAllReady();
 
-        expect(vi.mocked(saveAll).mock.calls[0]?.[0].map((f) => f.id)).toEqual(['a', 'b']);
+        // The empty file is ready too — and is saved along (as an empty file), not just marked saved.
+        expect(vi.mocked(saveAll).mock.calls[0]?.[0].map((f) => f.id)).toEqual(['a', 'b', 'empty']);
         expect(h.session.getItems().map((it) => [it.id, it.status])).toEqual([
             ['a', 'done'],
             ['b', 'done'],

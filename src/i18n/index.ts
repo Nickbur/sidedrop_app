@@ -18,12 +18,22 @@ function initialLocale(): Locale {
     return 'en';
 }
 
+/** Stamp the language on `<html lang>` (screen readers, hyphenation, translation prompts). */
+function markDocument(locale: Locale): void {
+    if (typeof document !== 'undefined') document.documentElement.setAttribute('lang', locale);
+}
+
+const startLocale = initialLocale();
+
 export const i18n = createI18n({
     legacy: false,
-    locale: initialLocale(),
+    locale: startLocale,
     fallbackLocale: 'en',
     messages: { en, ru },
 });
+
+// index.html says `lang="en"`; a Russian start must say so from the first paint, not only after a switch.
+markDocument(startLocale);
 
 export function setLocale(locale: Locale): void {
     i18n.global.locale.value = locale;
@@ -32,5 +42,5 @@ export function setLocale(locale: Locale): void {
     } catch {
         /* storage may be unavailable */
     }
-    if (typeof document !== 'undefined') document.documentElement.setAttribute('lang', locale);
+    markDocument(locale);
 }

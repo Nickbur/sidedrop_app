@@ -109,9 +109,14 @@ export class Session {
         if (firstTime) {
             this.setStatus(present ? 'connecting' : 'waiting');
         }
-        if (present) {
+        // A re-join after a socket blip is answered like any join ("peer present"): a P2P link that
+        // still works is left alone — a dead one recovers through its own connection state.
+        if (present && !this.peerConnected) {
             if (role === 'host') this.hostNegotiate();
             else this.signaling?.sendSignal({ kind: 'rebuild' });
+        } else if (present && this.status === 'reconnecting') {
+            // Only the signaling socket blinked; the P2P link kept working — the session is connected again.
+            this.setStatus('connected');
         }
         this.emitState();
     }
@@ -151,7 +156,8 @@ export class Session {
     private hostNegotiate(): void {
         this.epoch += 1;
         this.teardownPeer();
-        const peer = new Peer('host', this.epoch, this.iceServers, this.peerCallbacks());
+        const peer = this.createPeer('host');
+        if (!peer) return;
         this.peer = peer;
         if (this.status !== 'connected') this.setStatus('connecting');
         void peer.start();
@@ -169,7 +175,8 @@ export class Session {
             if (signal.epoch < this.epoch) return;
             this.epoch = signal.epoch;
             this.teardownPeer();
-            const peer = new Peer('guest', this.epoch, this.iceServers, this.peerCallbacks());
+            const peer = this.createPeer('guest');
+            if (!peer) return;
             this.peer = peer;
             if (this.status !== 'connected') this.setStatus('connecting');
             await peer.handleSignal(signal);
@@ -177,6 +184,16 @@ export class Session {
         }
         if (this.peer && signal.epoch === this.peer.epoch) {
             await this.peer.handleSignal(signal);
+        }
+    }
+
+    /** A new Peer — or, when the browser refuses to set one up, the error state instead of "Connecting…" forever. */
+    private createPeer(role: PeerRole): Peer | null {
+        try {
+            return new Peer(role, this.epoch, this.iceServers, this.peerCallbacks());
+        } catch {
+            this.onError('peer-failed');
+            return null;
         }
     }
 
@@ -264,7 +281,7 @@ export class Session {
             this.engine.markSaved(id);
             return;
         }
-        const file = this.sinkStore.get(id);
+        const file = item ? this.receivedFile(item) : undefined;
         if (!file) return;
         await saveReceived(file);
         this.engine.markSaved(id);
@@ -276,12 +293,31 @@ export class Session {
             .filter((it) => it.dir === 'recv' && it.status === 'ready' && it.kind === 'file');
         const files: ReceivedFile[] = [];
         for (const it of ready) {
-            const f = this.sinkStore.get(it.id);
+            const f = this.receivedFile(it);
             if (f) files.push(f);
         }
         if (files.length === 0) return;
         await saveAll(files);
         for (const it of ready) this.engine.markSaved(it.id);
+    }
+
+    /**
+     * The received file behind a row: its stored copy — or, for an empty file (which arrives ready
+     * without one: there is nothing to store), an empty Blob of its type, so it saves like any other.
+     */
+    private receivedFile(item: TransferItem): ReceivedFile | undefined {
+        const stored = this.sinkStore.get(item.id);
+        if (stored) return stored;
+        if (item.kind !== 'file' || item.size !== 0) return undefined;
+        return {
+            id: item.id,
+            name: item.name,
+            relPath: item.relPath ?? item.name,
+            mime: item.mime,
+            size: 0,
+            getBlob: async () => new Blob([], { type: item.mime }),
+            cleanup: async () => {},
+        };
     }
 
     cancel(id: string): void {

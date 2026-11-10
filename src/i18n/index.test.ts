@@ -37,6 +37,17 @@ describe('start language', () => {
         expect(i18n.global.locale.value).toBe('ru');
     });
 
+    it('is stamped on <html lang> from the start, not only after a switch', async () => {
+        document.documentElement.setAttribute('lang', 'en');
+        browserLanguage('ru-RU');
+        await freshI18n();
+        expect(document.documentElement.getAttribute('lang')).toBe('ru');
+
+        browserLanguage('en-GB');
+        await freshI18n();
+        expect(document.documentElement.getAttribute('lang')).toBe('en');
+    });
+
     it('is the remembered choice whatever the browser says', async () => {
         browserLanguage('ru');
         localStorage.setItem('sidedrop_lang', 'en');

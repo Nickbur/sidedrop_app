@@ -11,6 +11,7 @@ import {
     type Control,
 } from './protocol';
 import type { ItemKind, ItemMeta, TransferItem } from './types';
+import { safeFileName, safeRelPath } from './safePath';
 
 /** Abstract bidirectional channel — a real RTCDataChannel adapter or a test fake. */
 export interface Channel {
@@ -351,8 +352,15 @@ export class TransferEngine {
         }
     }
 
-    private async ensureRecv(meta: ItemMeta): Promise<void> {
-        if (this.recvByIndex.has(meta.i)) return;
+    private async ensureRecv(announced: ItemMeta): Promise<void> {
+        if (this.recvByIndex.has(announced.i)) return;
+        // The peer names its files: the name and path are made safe here, once, before anything stores,
+        // shows, writes or zips them (no climbing out of the receiver's folder, no control characters).
+        const meta: ItemMeta = {
+            ...announced,
+            name: safeFileName(announced.name),
+            ...(announced.relPath !== undefined ? { relPath: safeRelPath(announced.relPath) } : {}),
+        };
         const item: TransferItem = {
             ...meta,
             dir: 'recv',
@@ -395,7 +403,8 @@ export class TransferEngine {
         const item: TransferItem = {
             i,
             id,
-            name,
+            // Peer-named, like a file: the name it saves under stays one plain name.
+            name: safeFileName(name),
             size,
             mime: 'text/plain',
             kind: 'text',
