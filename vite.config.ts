@@ -7,7 +7,12 @@ import vue from '@vitejs/plugin-vue';
  * dev without HTTPS; production is served over https at sidedrop.burakov.net.
  */
 export default defineConfig({
-    plugins: [vue()],
+    // Under Vitest only, template URLs to the public dir (`<img src="/favicon.png">`) stay plain
+    // strings, as they are at runtime. Compiled into imports instead, they reach Vitest's module
+    // runner as root-relative ids, which it cannot load on Windows (no drive letter) — so the same
+    // test would pass on macOS / Linux and fail on Windows. Builds and the dev server keep the
+    // default asset handling.
+    plugins: [vue(process.env.VITEST ? { template: { transformAssetUrls: { includeAbsolute: false } } } : {})],
     server: {
         port: 8103,
         strictPort: true,
